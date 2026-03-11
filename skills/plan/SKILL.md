@@ -29,38 +29,31 @@ Write the file to `TASKS.md`. Use this structure exactly:
 - Total tasks: N
 - Estimated complexity: Low / Medium / High
 
+## Dependencies
+Show the dependency graph up front so individual tasks don't need to repeat it.
+Example: 1 → 2 → 4, 1 → 3 → 4 (tasks 2 and 3 can run in parallel after 1)
+
 ---
 
 ## Phase 1: [Name]
 **Goal**: What this phase delivers. What works at the end of it that didn't before.
-**Requirements covered**: FR-xx, FR-xx
 
-<task id="1.1">
-  <title>Task title</title>
-  <context>
-    Distilled context this agent needs to execute this task without reading other docs.
-    Include: relevant architectural pattern, key decisions from ARCHITECTURE.md,
-    which components this touches, any constraints to respect.
-    Keep to 3-5 sentences max.
-  </context>
-  <files>
-    List of files to create or modify. Use exact paths from ARCHITECTURE.md folder structure.
-  </files>
-  <action>
-    Specific implementation instructions. Name functions, classes, interfaces.
-    Reference patterns from ARCHITECTURE.md by name.
-    Do not say "implement X" — say exactly how.
-  </action>
-  <verify>
-    Concrete, runnable check that confirms this task is done.
-    A command, a test, or an exact observable behaviour.
-  </verify>
-  <depends_on>Task IDs this must run after. Empty if none.</depends_on>
-</task>
+### Task 1: [Title]
 
-<task id="1.2">
+**Context:** 1-2 sentences describing the project and what module/area this task operates in.
+Enough for an agent or engineer to understand *why* this task exists without reading other docs.
+
+**Build:**
+1. Outcome-level steps — describe *what* to build, not *how* to code it
+2. Each step is a deliverable, not an implementation instruction
+3. Keep to 3-5 steps max
+
+**Files:** `path/to/file.py`, `path/to/other.py`
+
+**Verify:** One sentence — a command to run or a behaviour to observe.
+
+### Task 2: [Title]
 ...
-</task>
 
 ---
 
@@ -80,14 +73,13 @@ Avoid phases like "set up project structure" or "write all models" — these don
 
 ## Task Rules
 
-- `<context>` must be self-contained. An agent executing this task may not read REQUIREMENTS.md or ARCHITECTURE.md — put everything it needs here.
-- `<action>` must be specific enough that two different engineers would implement it the same way.
-- `<verify>` must be a concrete check — not "it should work" but "run `python main.py` and see the splash screen".
+- **Context is project-level.** Give enough background for an agent to understand the project and where this task fits. Don't restate the code about to be written.
+- **Build steps are outcomes, not implementation instructions.** Say *what* to build, not *how* to write every line. The executing agent decides the implementation details. Bad: "Use asyncio.gather to run callbacks concurrently." Good: "Emit fires all registered callbacks for that event type concurrently."
+- **Verify is one sentence.** A command to run or a behaviour to observe. Not an inline script.
+- **Human-readable first.** The plan must be scannable by a human in under a minute. Use plain markdown — no XML tags, no verbose inline code blocks.
 - Every functional requirement (FR-xx) must be covered by at least one task. Note uncovered requirements.
-- Tasks within a phase that have no dependencies on each other should be noted as parallelisable.
+- Dependencies go in the top-level dependency graph, not on individual tasks.
 
 ## After Planning
 
-Once TASKS.md is produced, the user will create tickets in their project management tool (e.g. Linear) from the task list. Each task should map to one ticket. The task's `<context>` and `<action>` sections provide the ticket description, and `<verify>` provides the acceptance criteria.
-
-Individual tickets can then be executed with `/blueprint:task <ticket-id>`.
+Once TASKS.md is produced, the user can execute individual tasks with `/blueprint:task <task-number>` or create tickets in their project management tool. Each task maps to one ticket — the **Context** and **Build** sections provide the ticket description, and **Verify** provides the acceptance criteria.
