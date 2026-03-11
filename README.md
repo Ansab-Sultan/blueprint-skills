@@ -37,7 +37,7 @@ This is the SDLC. It has worked for decades. Blueprint just makes each step a co
 | **Requirements** | PM writes PRD, stakeholder reviews | `/blueprint:requirements` |
 | **Technical Design** | Eng writes design doc, architecture review | `/blueprint:architecture` |
 | **Planning** | Sprint planning, ticket breakdown | `/blueprint:plan` |
-| **Execution** | Engineer picks up ticket, does the work | `/blueprint:task LIN-123` |
+| **Execution** | Engineer picks up ticket, does the work | `/blueprint:task` |
 | **Git workflow** | Branch, commit, PR | `/blueprint:branch` + `/blueprint:commit` |
 
 State lives in your project management tool (Linear, Jira, whatever), not in markdown files. Blueprint generates the docs and the plan, you create the tickets, then hand them to an agent one at a time.
@@ -55,7 +55,7 @@ State lives in your project management tool (Linear, Jira, whatever), not in mar
 /blueprint:requirements    Rough notes → REQUIREMENTS.md
 /blueprint:architecture    Requirements → ARCHITECTURE.md
 /blueprint:plan            Architecture → TASKS.md
-/blueprint:task            Pick up a ticket, execute it, mark it done
+/blueprint:task            Pick up a task (ticket ID or description), execute it, mark it done
 /blueprint:branch          Create branch with conventional naming (feature/, fix/, docs/, ...)
 /blueprint:commit          Stage and commit with conventional commit messages
 ```
@@ -66,9 +66,9 @@ State lives in your project management tool (Linear, Jira, whatever), not in mar
 /blueprint:requirements I need a CLI tool that parses markdown and generates HTML
 /blueprint:architecture
 /blueprint:plan
-  ... create tickets in Linear from TASKS.md ...
+  ... create tickets from TASKS.md in your project management tool ...
 /blueprint:branch feature markdown-parser
-/blueprint:task LIN-123
+/blueprint:task LIN-123           # or GH-42, PROJ-456, or a plain description
 /blueprint:commit
 ```
 
