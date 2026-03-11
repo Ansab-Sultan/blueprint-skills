@@ -2,11 +2,35 @@
 
 A Claude Code plugin that encodes the standard software development lifecycle as executable commands.
 
-## Why
+Five commands. No framework to learn. Just the same process every good engineering team already follows.
 
-Every serious engineering org follows the same process: gather requirements, write a technical design, break the work into tasks, then execute. Blueprint doesn't invent anything new — it just makes this discipline the default when working with AI agents.
+## Why not the other spec frameworks?
 
-AI agents produce better output when given the same structured inputs a good engineer expects. Clear requirements. Explicit architecture decisions. Atomic, well-scoped tasks. Skip any of those steps and quality drops, same as it would with a human team.
+Most "agentic development" frameworks massively overcomplicate a simple process. Dozens of commands, custom DSLs, novel methodologies — solving problems that don't exist while ignoring the one that does: discipline.
+
+The way we build software hasn't changed. Requirements. Design. Plan. Build. Review. Ship. This process works whether you're a team at Google, a solo founder, or an AI agent. Adding agents to the loop doesn't mean we need to reinvent software engineering from scratch — it just means we move faster.
+
+Blueprint has five commands because that's all you need. If your spec framework requires a tutorial to understand, it's the framework that's the problem.
+
+```mermaid
+graph LR
+    A[Requirements] --> B[Technical Design]
+    B --> C[Task Breakdown]
+    C --> D[Implementation]
+    D --> E[Review]
+    E --> F[Ship]
+
+    style A fill:#2d333b,stroke:#768390,color:#adbac7
+    style B fill:#2d333b,stroke:#768390,color:#adbac7
+    style C fill:#2d333b,stroke:#768390,color:#adbac7
+    style D fill:#2d333b,stroke:#768390,color:#adbac7
+    style E fill:#2d333b,stroke:#768390,color:#adbac7
+    style F fill:#2d333b,stroke:#768390,color:#adbac7
+```
+
+This is the SDLC. It has worked for decades. Blueprint just makes each step a command.
+
+## How it maps
 
 | SDLC Phase | Traditional | Blueprint |
 |---|---|---|
@@ -16,7 +40,7 @@ AI agents produce better output when given the same structured inputs a good eng
 | **Implementation** | Engineer picks up ticket, branches | `/blueprint:branch` |
 | **Delivery** | Code committed, PR reviewed | `/blueprint:commit` |
 
-The only difference from a traditional SDLC is speed. What takes a team days of meetings and doc reviews collapses into minutes, but the discipline is identical. Requirements before design. Design before planning. Planning before code.
+The only difference is speed. What takes a team days of meetings and doc reviews collapses into minutes. The discipline is identical. Requirements before design. Design before planning. Planning before code.
 
 ## Install
 
