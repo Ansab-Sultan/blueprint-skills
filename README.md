@@ -1,83 +1,53 @@
 # Blueprint
 
-A Claude Code plugin for spec-driven development. Turns rough ideas into structured requirements, architecture docs, and atomic implementation plans — then helps you execute with clean git workflow.
+A Claude Code plugin that encodes the standard software development lifecycle as executable commands.
 
-## Commands
+## Why
 
-| Command | Description |
-|---------|-------------|
-| `/blueprint:requirements` | Transform rough notes into a structured requirements document (`REQUIREMENTS.md`) |
-| `/blueprint:architecture` | Generate a technical architecture design from requirements (`ARCHITECTURE.md`) |
-| `/blueprint:plan` | Break architecture into phased, atomic tasks with Linear export (`TASKS.md`) |
-| `/blueprint:commit` | Stage and commit with conventional commit messages |
-| `/blueprint:branch` | Create branches with conventional naming (`feature/`, `fix/`, `docs/`, etc.) |
+Every serious engineering org follows the same process: gather requirements, write a technical design, break the work into tasks, then execute. Blueprint doesn't invent anything new — it just makes this discipline the default when working with AI agents.
 
-## Workflow
+AI agents produce better output when given the same structured inputs a good engineer expects. Clear requirements. Explicit architecture decisions. Atomic, well-scoped tasks. Skip any of those steps and quality drops, same as it would with a human team.
 
-```
-rough idea
-    │
-    ▼
-/blueprint:requirements    →  REQUIREMENTS.md
-    │
-    ▼
-/blueprint:architecture    →  ARCHITECTURE.md
-    │
-    ▼
-/blueprint:plan            →  TASKS.md (+ Linear export)
-    │
-    ▼
-/blueprint:branch feature my-feature
-    │
-    ▼
-  ... build each task ...
-    │
-    ▼
-/blueprint:commit
-```
+| SDLC Phase | Traditional | Blueprint |
+|---|---|---|
+| **Requirements** | PM writes PRD, stakeholder reviews | `/blueprint:requirements` |
+| **Technical Design** | Eng writes design doc, architecture review | `/blueprint:architecture` |
+| **Planning** | Sprint planning, ticket breakdown | `/blueprint:plan` |
+| **Implementation** | Engineer picks up ticket, branches | `/blueprint:branch` |
+| **Delivery** | Code committed, PR reviewed | `/blueprint:commit` |
+
+The only difference from a traditional SDLC is speed. What takes a team days of meetings and doc reviews collapses into minutes, but the discipline is identical. Requirements before design. Design before planning. Planning before code.
 
 ## Install
-
-Add the marketplace, then install the plugin:
 
 ```
 /plugin marketplace add owainlewis/blueprint
 /plugin install blueprint@owainlewis-blueprint
 ```
 
-## Local Development
-
-Test the plugin locally:
-
-```bash
-claude --plugin-dir /path/to/blueprint
-```
-
-Then use any command:
+## Commands
 
 ```
-/blueprint:requirements I need a CLI tool that...
-/blueprint:branch feature user-auth
+/blueprint:requirements    Rough notes → REQUIREMENTS.md
+/blueprint:architecture    Requirements → ARCHITECTURE.md
+/blueprint:plan            Architecture → TASKS.md (with Linear export)
+/blueprint:branch          Create branch with conventional naming (feature/, fix/, docs/, ...)
+/blueprint:commit          Stage and commit with conventional commit messages
+```
+
+## Usage
+
+```
+/blueprint:requirements I need a CLI tool that parses markdown and generates HTML
+/blueprint:architecture
+/blueprint:plan
+/blueprint:branch feature markdown-parser
+  ... build each task ...
 /blueprint:commit
 ```
 
-## Project Structure
+## Local Development
 
-```
-blueprint/
-├── .claude-plugin/
-│   ├── plugin.json           # Plugin manifest
-│   └── marketplace.json      # Marketplace manifest
-├── skills/
-│   ├── requirements/
-│   │   └── SKILL.md          # /blueprint:requirements
-│   ├── architecture/
-│   │   └── SKILL.md          # /blueprint:architecture
-│   ├── plan/
-│   │   └── SKILL.md          # /blueprint:plan
-│   ├── commit/
-│   │   └── SKILL.md          # /blueprint:commit
-│   └── branch/
-│       └── SKILL.md          # /blueprint:branch
-└── README.md
+```bash
+claude --plugin-dir /path/to/blueprint
 ```
