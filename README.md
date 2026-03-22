@@ -35,27 +35,66 @@ graph LR
 
 ## Commands
 
-```
-/blueprint:requirements    Rough notes → requirements doc
-/blueprint:architecture    Requirements → architecture doc
-/blueprint:plan            Architecture → implementation plan
-/blueprint:task            Pick up a task, execute it, mark it done
-/blueprint:branch          Create branch with conventional naming
-/blueprint:commit          Stage and commit with conventional messages
-```
+All document commands take explicit file paths — you decide where things live.
 
-All document commands take explicit file paths — no hardcoded filenames.
+### 1. Requirements
 
-## Usage
+Turn rough notes into a structured requirements document. The agent acts as a technical PM — it will ask clarifying questions before producing the doc.
 
 ```
 /blueprint:requirements REQUIREMENTS.md I need a CLI tool that parses markdown and generates HTML
+```
+
+### 2. Architecture
+
+Turn a requirements doc into a technical architecture design. Covers system design, components, data flow, key decisions, and file structure.
+
+```
 /blueprint:architecture REQUIREMENTS.md ARCHITECTURE.md
+```
+
+### 3. Plan
+
+Break an architecture into phased, executable tasks. Each task is self-contained — written so an agent (or engineer) with zero prior context can pick it up and start working.
+
+```
 /blueprint:plan REQUIREMENTS.md ARCHITECTURE.md TASKS.md
-/blueprint:branch feature markdown-parser
+```
+
+### 4. Task
+
+Pick up a single task and execute it. Accepts a ticket ID from any tracker (Linear, Jira, GitHub) or a plain description. Creates a branch, does the work, verifies the acceptance criteria, and commits.
+
+```
 /blueprint:task LIN-123
+/blueprint:task "add rate limiting to the API"
+```
+
+### 5. Branch
+
+Create a feature branch with conventional naming.
+
+```
+/blueprint:branch feature markdown-parser
+/blueprint:branch fix login-redirect
+```
+
+### 6. Commit
+
+Stage and commit with a conventional commit message. Reviews the diff and writes the message for you.
+
+```
 /blueprint:commit
 ```
+
+## Example
+
+The [`examples/`](examples/) folder shows the full pipeline for a real project — a Python RAG chatbot API. Start with the [raw notes](examples/input.md) and see what each stage produces:
+
+1. [input.md](examples/input.md) — rough project notes
+2. [REQUIREMENTS.md](examples/REQUIREMENTS.md) — structured requirements
+3. [ARCHITECTURE.md](examples/ARCHITECTURE.md) — technical design
+4. [TASKS.md](examples/TASKS.md) — phased implementation plan
 
 ## Local Development
 
