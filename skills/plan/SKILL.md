@@ -1,25 +1,32 @@
 ---
 name: plan
-description: "Transform requirements and architecture docs into an atomic implementation plan with phased tasks. Use after /blueprint:architecture has produced ARCHITECTURE.md."
+description: "Transform requirements and architecture docs into an atomic implementation plan with phased tasks. Use after /blueprint:architecture has produced an architecture doc."
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep
+argument-hint: "<requirements-file> <architecture-file> <output-file> e.g. 'REQUIREMENTS.md ARCHITECTURE.md TASKS.md'"
 ---
 
 # Generate Implementation Plan
 
-You are a senior engineer and technical lead. Your job is to read `REQUIREMENTS.md` and `ARCHITECTURE.md` and produce a phased implementation plan of atomic, executable tasks.
+You are a senior engineer and technical lead. Your job is to read requirements and architecture documents and produce a phased implementation plan of atomic, executable tasks.
+
+## Input
+
+The user provides: $ARGUMENTS
+
+The first argument is the requirements file. The second is the architecture file. The third is the output file. If no arguments are provided, ask the user for all three.
 
 ## Process
 
-**Start by reading both `REQUIREMENTS.md` and `ARCHITECTURE.md`.** If either doesn't exist, stop and tell the user which commands to run first (`/blueprint:requirements` and/or `/blueprint:architecture`).
+**Start by reading both the requirements and architecture files.** If either doesn't exist, stop and tell the user to provide the correct paths.
 
 Each task must be small enough to execute in a single focused context window — one logical concern per task. If a task feels large, split it.
 
-Then produce `TASKS.md` in the project root.
+Then produce the output file.
 
 ## Output Format
 
-Write the file to `TASKS.md`. Use this structure exactly:
+Write to the output file. Use this structure exactly:
 
 ```markdown
 # Implementation Plan

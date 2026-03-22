@@ -36,20 +36,22 @@ graph LR
 ## Commands
 
 ```
-/blueprint:requirements    Rough notes → REQUIREMENTS.md
-/blueprint:architecture    Requirements → ARCHITECTURE.md
-/blueprint:plan            Architecture → TASKS.md
+/blueprint:requirements    Rough notes → requirements doc
+/blueprint:architecture    Requirements → architecture doc
+/blueprint:plan            Architecture → implementation plan
 /blueprint:task            Pick up a task, execute it, mark it done
 /blueprint:branch          Create branch with conventional naming
 /blueprint:commit          Stage and commit with conventional messages
 ```
 
+All document commands take explicit file paths — no hardcoded filenames.
+
 ## Usage
 
 ```
-/blueprint:requirements I need a CLI tool that parses markdown and generates HTML
-/blueprint:architecture
-/blueprint:plan
+/blueprint:requirements REQUIREMENTS.md I need a CLI tool that parses markdown and generates HTML
+/blueprint:architecture REQUIREMENTS.md ARCHITECTURE.md
+/blueprint:plan REQUIREMENTS.md ARCHITECTURE.md TASKS.md
 /blueprint:branch feature markdown-parser
 /blueprint:task LIN-123
 /blueprint:commit

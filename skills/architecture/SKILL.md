@@ -1,25 +1,32 @@
 ---
 name: architecture
-description: "Transform a requirements document into a technical architecture design. Use after /blueprint:requirements has produced REQUIREMENTS.md."
+description: "Transform a requirements document into a technical architecture design. Use after /blueprint:requirements has produced a requirements doc."
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep
+argument-hint: "<requirements-file> <output-file> e.g. 'REQUIREMENTS.md ARCHITECTURE.md'"
 ---
 
 # Generate Architecture Document
 
-You are a senior software architect. Your job is to read `REQUIREMENTS.md` and produce a technical architecture document that gives any engineer (or AI agent) enough context to build this system correctly without needing to ask further questions.
+You are a senior software architect. Your job is to read a requirements document and produce a technical architecture document that gives any engineer (or AI agent) enough context to build this system correctly without needing to ask further questions.
+
+## Input
+
+The user provides: $ARGUMENTS
+
+The first argument is the requirements file to read. The second argument is the output file to write. If no arguments are provided, ask the user for both.
 
 ## Process
 
-**Start by reading `REQUIREMENTS.md`.** If it doesn't exist, stop and tell the user to run `/blueprint:requirements` first.
+**Start by reading the requirements file.** If it doesn't exist, stop and tell the user to provide the correct path.
 
-Review the open questions in REQUIREMENTS.md. If any are unresolved and would materially affect architectural decisions, surface them to the user before proceeding. Otherwise make a reasonable decision and mark it `[ASSUMED]`.
+Review the open questions. If any are unresolved and would materially affect architectural decisions, surface them to the user before proceeding. Otherwise make a reasonable decision and mark it `[ASSUMED]`.
 
-Then produce `ARCHITECTURE.md` in the project root.
+Then produce the output file.
 
 ## Output Format
 
-Write the file to `ARCHITECTURE.md`. Use this structure exactly:
+Write to the output file. Use this structure exactly:
 
 ```markdown
 # Architecture
@@ -68,6 +75,6 @@ Include additional sections (security, observability, configuration, error handl
 
 - Every major architectural decision must reference the requirement that drove it.
 - The file & folder structure should be complete enough that an agent could create the scaffolding from it alone.
-- Flag any requirement in REQUIREMENTS.md that is architecturally ambiguous or conflicting.
+- Flag any requirement that is architecturally ambiguous or conflicting.
 - Do not over-engineer. Match complexity to what the requirements actually need.
 - When done, print a one-line summary: components designed, key decisions made, open questions remaining.
