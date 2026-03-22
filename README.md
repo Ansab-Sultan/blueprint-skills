@@ -18,12 +18,6 @@ graph LR
     B --> C[Plan]
     C --> D[Execute]
     D --> E[Ship]
-
-    style A fill:#2d333b,stroke:#768390,color:#adbac7
-    style B fill:#2d333b,stroke:#768390,color:#adbac7
-    style C fill:#2d333b,stroke:#768390,color:#adbac7
-    style D fill:#2d333b,stroke:#768390,color:#adbac7
-    style E fill:#2d333b,stroke:#768390,color:#adbac7
 ```
 
 ## Install
