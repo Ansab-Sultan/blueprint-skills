@@ -1,6 +1,6 @@
 # Blueprint
 
-Seven commands. No framework. Ship better software.
+Agentic coding best practices without the complexity.
 
 ## The Problem with Agentic Coding Frameworks
 
