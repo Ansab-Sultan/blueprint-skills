@@ -1,16 +1,20 @@
 # Blueprint
 
-A Claude Code plugin that encodes the software development lifecycle as executable commands.
+Seven commands. No framework. Ship better software.
 
-Seven commands. No framework to learn. Just the workflow every good engineering team already follows.
+## The Problem with Agentic Coding Frameworks
 
-## Why Blueprint?
+Every week there's a new Claude Code plugin with 50 skills, 16 review agents, multi-stage orchestration pipelines, and anti-rationalization tables. They look impressive in a demo. In practice, you spend more time configuring the framework than writing software.
 
-Most agentic coding frameworks add enormous complexity — dozens of commands, multi-stage review pipelines, anti-rationalization tables — solving problems that don't exist while creating new ones.
+These frameworks are built on a flawed assumption: that AI agents are unreliable and need to be constrained with hundreds of lines of rules. So they add guardrails on guardrails — specialized agents watching other agents, complex routing logic, permission matrices — until the tooling itself becomes the bottleneck.
 
-Blueprint takes the opposite stance: **agents are smart. Treat them that way.**
+**Blueprint takes the opposite stance: agents are smart. Treat them that way.**
 
-As models get more capable, the right move is to simplify your instructions, not add more. A clear 50-line skill outperforms a 500-line skill full of warnings and iron laws — because the agent spends its attention on the work instead of navigating the rules. Workflow beats prompts.
+A clear 50-line skill outperforms a 500-line skill full of warnings and iron laws. The agent spends its attention on your work instead of navigating rules. As models get more capable, heavy frameworks fight the model. Simple workflows ride the improvement curve.
+
+## What Blueprint Actually Is
+
+The software development lifecycle, encoded as executable commands:
 
 ```mermaid
 graph LR
@@ -20,6 +24,10 @@ graph LR
     D --> E[Review]
     E --> F[Ship]
 ```
+
+That's it. No agent swarms. No orchestration layer. No configuration files. Seven commands that map to what good engineering teams already do — just faster.
+
+You can read every skill in 10 minutes. Try that with the alternatives.
 
 ## Install
 
@@ -111,6 +119,14 @@ Stage and commit with a conventional commit message. Reviews the diff and writes
 ```
 /blueprint:commit
 ```
+
+## Philosophy
+
+**Workflow beats prompts.** The value isn't in clever prompt engineering — it's in encoding the right process. Requirements before architecture. Architecture before code. Review before ship. Get the sequence right and the agent does the rest.
+
+**Simplicity is a feature.** Every skill in Blueprint is under 100 lines. Not because we couldn't write more, but because more is worse. The frameworks with 16 specialized review agents and multi-stage orchestration pipelines are optimizing for impressiveness, not outcomes. In practice, one focused review that checks correctness, security, and simplicity catches more real bugs than 16 agents generating noise.
+
+**Bet on the model.** Frameworks that micromanage the agent with hundreds of rules are building on sand. Every model improvement makes those rules less necessary and more likely to conflict with the model's own judgment. Blueprint gives the agent clear goals and gets out of the way. That approach gets better over time, not worse.
 
 ## Example
 
