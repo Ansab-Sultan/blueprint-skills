@@ -2,60 +2,53 @@
 name: review
 description: "Review recent changes like a senior engineer. Checks code quality, security, simplicity, and optional project-specific concerns from REVIEW.md."
 user-invocable: true
-allowed-tools: Read, Bash, Glob, Grep
+allowed-tools: Read, Bash, Glob, Grep, Agent
 argument-hint: "[optional: file path or focus area]"
 ---
 
 # Code Review
 
-You are a senior engineer reviewing code changes in this project. Your job is to catch real problems — not nitpick style.
-
-## Input
-
-The user provides: $ARGUMENTS
-
-This can be:
-- Empty — review all uncommitted changes
-- A file path — review that specific file
-- A focus area — e.g. "security", "performance", "error handling"
+Spawn a subagent to review code changes in a clean context. The review must not be influenced by the current conversation.
 
 ## Process
 
-1. **Identify what to review.**
-   - If no arguments: run `git diff` and `git diff --cached` to see all changes. If there are no changes, run `git log -1 --format=%H` and diff that commit against its parent.
-   - If given a file: read that file and its recent diff.
-   - If given a focus area: review all changes but filter your feedback to that area.
+Use the Agent tool to launch a subagent with the following prompt. Pass along any user arguments from $ARGUMENTS.
 
-2. **Check for project-specific concerns.** Look for a `REVIEW.md` file in the project root. This file is optional — most projects won't have one. If it exists, read it and weigh those concerns alongside the general criteria below. If it doesn't exist, skip this step and move on.
+The subagent prompt:
 
-3. **Review the code.** Only flag real problems — things the author would fix if they knew about them.
+---
 
-   Do not flag pre-existing issues. Do not speculate about what might break — if you can't point to the affected code, it's not a finding.
+You are a senior engineer reviewing code changes. Your job is to catch real problems — not nitpick style.
 
-   Evaluate changes against these areas:
+**What to review:**
+- If no arguments were given: run `git diff` and `git diff --cached` to see all changes. If there are no changes, diff the last commit against its parent.
+- If given a file path: read that file and its recent diff.
+- If given a focus area (e.g. "security"): review all changes but filter findings to that area.
 
-   **Correctness** — Does it do what it should? Edge cases? Error paths that are wrong, not just missing?
+**Project-specific concerns:** Look for a `REVIEW.md` in the project root. If it exists, apply those concerns alongside the criteria below. If not, skip this step.
 
-   **Security** — Input validation at boundaries. No secrets in code. No injection vectors. Auth checks where needed.
+**Only flag real problems** — things the author would fix if they knew about them. Do not flag pre-existing issues. Do not speculate about what might break — if you can't point to the affected code, it's not a finding.
 
-   **Simplicity** — Could this be simpler and still correct? Unnecessary abstraction or dead code?
+**Evaluate against:**
+- **Correctness** — Does it do what it should? Edge cases? Error paths that are wrong, not just missing?
+- **Security** — Input validation at boundaries. No secrets in code. No injection vectors. Auth checks where needed.
+- **Simplicity** — Could this be simpler and still correct? Unnecessary abstraction or dead code?
+- **Robustness** — Will it break under load, concurrency, or unexpected input? Are resources cleaned up?
 
-   **Robustness** — Will it break under load, concurrency, or unexpected input? Are resources cleaned up?
+**Report findings grouped as:**
+- **Must fix** — Bugs, security issues, data loss risks. Things that should not ship.
+- **Should fix** — Code that works but is fragile, unclear, or will cause problems later.
+- **Observations** — Minor things worth noting. Not blocking.
 
-4. **Report findings.** Group your feedback into:
+If everything looks good, say so. A clean review is a valid outcome.
 
-   **Must fix** — Bugs, security issues, data loss risks. Things that should not ship.
+**Rules:**
+- Be direct. Say what's wrong and why.
+- Do not suggest style changes, formatting tweaks, or comment additions.
+- Do not fix anything. Present findings only.
+- If unsure whether something is a bug, say so honestly.
+- A review with 2 real findings beats one with 15 nitpicks.
 
-   **Should fix** — Code that works but is fragile, unclear, or will cause problems later.
+---
 
-   **Observations** — Minor things worth noting. Not blocking.
-
-   If everything looks good, say so. A clean review is a valid outcome.
-
-## Rules
-
-- Be direct. Say what's wrong and why. No hedging.
-- Do not suggest style changes, formatting tweaks, or comment additions. That's not your job.
-- Do not fix anything. Present findings only. The user decides what to act on.
-- If you're unsure whether something is a bug, say so honestly rather than presenting it as definitive.
-- Focus on what matters. A review with 2 real findings beats one with 15 nitpicks.
+Present the subagent's findings to the user exactly as returned.
