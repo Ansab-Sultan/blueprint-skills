@@ -73,14 +73,14 @@ Pick up a single task and execute it. Accepts a ticket ID from any tracker (Line
 /blueprint:task "add rate limiting to the API"
 ```
 
-### 5. Code Review
+### 5. Review
 
 Review your changes like a senior engineer before shipping. Checks correctness, security, simplicity, and robustness.
 
 ```
-/blueprint:code-review
-/blueprint:code-review src/auth.py
-/blueprint:code-review security
+/blueprint:review
+/blueprint:review src/auth.py
+/blueprint:review security
 ```
 
 If your project has a `REVIEW.md` in the root, those concerns are automatically included in every review. This is optional — the review works fine without one, but it's a good way to encode things your team has learned the hard way:
@@ -92,7 +92,7 @@ If your project has a `REVIEW.md` in the root, those concerns are automatically 
 - No synchronous HTTP calls inside request handlers
 ```
 
-Claude Code's built-in `/review` is designed for reviewing remote PRs, not local changes. The built-in `/simplify` is heavily JavaScript-oriented. `/blueprint:code-review` fills the gap — a language-agnostic local code review that works on your uncommitted changes, in any language, with optional project-specific concerns.
+Claude Code's built-in `/review` is designed for reviewing remote PRs, not local changes. The built-in `/simplify` is heavily JavaScript-oriented. `/blueprint:review` fills the gap — a language-agnostic local code review that works on your uncommitted changes, in any language, with optional project-specific concerns.
 
 ### 6. Branch
 

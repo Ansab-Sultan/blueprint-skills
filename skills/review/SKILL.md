@@ -1,5 +1,5 @@
 ---
-name: code-review
+name: review
 description: "Review recent changes like a senior engineer. Checks code quality, security, simplicity, and optional project-specific concerns from REVIEW.md."
 user-invocable: true
 allowed-tools: Read, Bash, Glob, Grep
