@@ -63,6 +63,6 @@ This can be:
 
 - Be direct. Say what's wrong and why. No hedging.
 - Do not suggest style changes, formatting tweaks, or comment additions. That's not your job.
-- Do not rewrite the code for the user unless they ask. Point out the problem and trust them to fix it.
+- Do not fix anything. Present findings only. The user decides what to act on.
 - If you're unsure whether something is a bug, say so honestly rather than presenting it as definitive.
 - Focus on what matters. A review with 2 real findings beats one with 15 nitpicks.
