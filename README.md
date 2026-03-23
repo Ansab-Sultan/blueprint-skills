@@ -92,16 +92,7 @@ If your project has a `REVIEW.md` in the root, those concerns are automatically 
 - No synchronous HTTP calls inside request handlers
 ```
 
-**When to use this vs Claude Code built-ins:**
-
-| | `/blueprint:code-review` | `/review` | `/simplify` |
-|---|---|---|---|
-| **Focus** | Correctness, security, robustness | General code review | Code clarity and maintainability |
-| **Project context** | Reads REVIEW.md for project-specific concerns | No project-specific context | No project-specific context |
-| **Output** | Grouped findings (must fix / should fix / observations) | Inline suggestions | Refactored code |
-| **Best for** | Pre-ship review of a complete change | Quick feedback on any code | Cleaning up code that works but is messy |
-
-Use them together: `/blueprint:code-review` to catch real problems, then `/simplify` to clean up what's left.
+Claude Code's built-in `/review` is designed for reviewing remote PRs, not local changes. The built-in `/simplify` is heavily JavaScript-oriented. `/blueprint:code-review` fills the gap — a language-agnostic local code review that works on your uncommitted changes, in any language, with optional project-specific concerns.
 
 ### 6. Branch
 
