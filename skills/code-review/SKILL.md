@@ -28,16 +28,9 @@ This can be:
 
 2. **Check for project-specific concerns.** Look for a `REVIEW.md` file in the project root. This file is optional — most projects won't have one. If it exists, read it and weigh those concerns alongside the general criteria below. If it doesn't exist, skip this step and move on.
 
-3. **Review the code.** Only flag something if ALL of the following are true:
+3. **Review the code.** Only flag real problems — things the author would fix if they knew about them.
 
-   - It meaningfully impacts correctness, performance, security, or maintainability
-   - It is discrete and actionable — not a vague concern or a combination of multiple issues
-   - Fixing it does not demand a level of rigor beyond what the rest of the codebase follows
-   - It was introduced in this change — do not flag pre-existing issues
-   - The author would likely fix it if they knew about it
-   - It does not rely on unstated assumptions about the codebase or the author's intent
-   - You can identify the specific code that is affected — speculation that something "might break elsewhere" is not enough
-   - It is clearly not an intentional choice by the author
+   Do not flag pre-existing issues. Do not hold the code to a higher standard than the rest of the codebase. Do not speculate about what might break — if you can't point to the affected code, it's not a finding.
 
    Evaluate changes against these areas:
 
