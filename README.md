@@ -21,11 +21,12 @@ graph LR
     A[Requirements] --> B[Architecture]
     B --> C[Plan]
     C --> D[Execute]
-    D --> E[Review]
-    E --> F[Ship]
+    D --> E[Refactor / Coverage]
+    E --> F[Review]
+    F --> G[Ship]
 ```
 
-That's it. No agent swarms. No orchestration layer. No configuration files. Seven commands that map to what good engineering teams already do — just faster.
+That's it. No agent swarms. No orchestration layer. No configuration files. Ten commands that map to what good engineering teams already do — just faster.
 
 You can read every skill in 10 minutes. Try that with the alternatives.
 
@@ -73,7 +74,34 @@ Pick up a single task and execute it. Accepts a ticket ID from any tracker (Line
 /blueprint:task "add rate limiting to the API"
 ```
 
-### 5. Review
+### 5. Refactor
+
+Refactor code like a senior engineer — simplify, remove dead code, improve clarity. No behavior changes, no new abstractions. The goal is less code, not different code.
+
+```
+/blueprint:refactor
+/blueprint:refactor src/api/routes.py
+```
+
+### 6. Coverage
+
+Evaluate test coverage and fill gaps — but only with tests worth having. Every test must catch a realistic bug. No testing constructors, no mocking for the sake of mocking, no padding coverage numbers.
+
+```
+/blueprint:coverage
+/blueprint:coverage src/auth/
+```
+
+### 7. TDD
+
+Build a feature test-first. Write failing tests that define the behavior, implement the minimum to make them pass, then simplify.
+
+```
+/blueprint:tdd "retry logic for API client"
+/blueprint:tdd "user registration endpoint"
+```
+
+### 8. Review
 
 Review your changes like a senior engineer before shipping. Checks correctness, security, simplicity, and robustness.
 
@@ -94,7 +122,7 @@ If your project has a `REVIEW.md` in the root, those concerns are automatically 
 
 Claude Code's built-in `/review` is designed for reviewing remote PRs, not local changes. The built-in `/simplify` is heavily JavaScript-oriented. `/blueprint:review` fills the gap — a language-agnostic local code review that works on your uncommitted changes, in any language, with optional project-specific concerns.
 
-### 6. Branch
+### 9. Branch
 
 Create a feature branch with conventional naming.
 
@@ -103,7 +131,7 @@ Create a feature branch with conventional naming.
 /blueprint:branch fix login-redirect
 ```
 
-### 7. Commit
+### 10. Commit
 
 Stage and commit with a conventional commit message. Reviews the diff and writes the message for you.
 
@@ -127,6 +155,32 @@ The [`examples/`](examples/) folder shows the full pipeline for a real project �
 2. [REQUIREMENTS.md](examples/REQUIREMENTS.md) — structured requirements
 3. [ARCHITECTURE.md](examples/ARCHITECTURE.md) — technical design
 4. [TASKS.md](examples/TASKS.md) — phased implementation plan
+
+## Updating
+
+After installing, update to the latest version with:
+
+```
+claude plugin update blueprint@owainlewis-blueprint
+```
+
+Then reload in a running session:
+
+```
+/reload-plugins
+```
+
+## Releasing (for contributors)
+
+Bump the version, commit, tag, and push in one step:
+
+```bash
+./release.sh patch   # 0.2.0 → 0.2.1
+./release.sh minor   # 0.2.0 → 0.3.0
+./release.sh major   # 0.2.0 → 1.0.0
+```
+
+This updates both `plugin.json` and `marketplace.json` so users can pull the new version immediately.
 
 ## Local Development
 
