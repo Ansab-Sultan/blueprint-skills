@@ -32,10 +32,28 @@ You can read every skill in 10 minutes. Try that with the alternatives.
 
 ## Install
 
+### Option 1: Claude Code plugin marketplace
+
 ```
 /plugin marketplace add owainlewis/blueprint
 /plugin install blueprint@owainlewis-blueprint
 ```
+
+Skills are namespaced as `/blueprint:requirements`, `/blueprint:plan`, etc.
+
+### Option 2: `npx skills` (works with 40+ agents)
+
+If you use [vercel-labs/skills](https://github.com/vercel-labs/skills), you can install Blueprint into Claude Code, Codex, Cursor, OpenCode, and others:
+
+```bash
+# Install all skills globally for Claude Code
+npx skills add owainlewis/blueprint -a claude-code -g
+
+# Or pick specific skills
+npx skills add owainlewis/blueprint -s requirements -s plan -a claude-code -g
+```
+
+With this method skills install as bare names (`/requirements`) rather than namespaced (`/blueprint:requirements`). Update later with `npx skills update`.
 
 ## Commands
 
