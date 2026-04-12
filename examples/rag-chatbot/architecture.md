@@ -4,15 +4,11 @@
 A FastAPI application implementing RAG over user-uploaded PDFs. Documents are chunked and embedded on upload, then retrieved via vector similarity search at query time to ground LLM-generated answers (per FR-01, FR-02).
 
 ## System Design
-```
-┌──────────┐     ┌──────────────┐     ┌────────────┐
-│  Client  │────▶│  FastAPI App │────▶│ PostgreSQL │
-└──────────┘     │              │     │ + pgvector │
-                 │  - Documents │     └────────────┘
-                 │  - Chat      │
-                 │  - Ingestion │     ┌────────────┐
-                 │              │────▶│ OpenAI API │
-                 └──────────────┘     └────────────┘
+```mermaid
+graph LR
+    Client -->|REST| FastAPI
+    FastAPI -->|SQL + vectors| PostgreSQL[PostgreSQL + pgvector]
+    FastAPI -->|embeddings + chat| OpenAI[OpenAI API]
 ```
 
 ## Components

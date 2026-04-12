@@ -38,7 +38,7 @@ Reference the relevant requirements (e.g. "per FR-01, FR-03").
 
 ## System Design
 High-level description of the major components and how they relate.
-Include a simple ASCII diagram if the system has more than 2 components.
+Include a mermaid diagram if the system has more than 2 components.
 
 ## Components
 
