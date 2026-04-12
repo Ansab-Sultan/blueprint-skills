@@ -45,7 +45,7 @@ Include a simple ASCII diagram if the system has more than 2 components.
 ### [Component Name]
 - **Purpose**: What it does
 - **Responsibilities**: Bullet list
-- **Interface**: How other components interact with it
+- **Interface**: What goes in, what comes out, and what the caller can depend on. Specific enough that two agents building different sides produce compatible code, but not so rigid that it locks in implementation choices the agent should make.
 - **Requirements satisfied**: FR-xx, NFR-xx
 
 Repeat for each major component.

@@ -41,7 +41,7 @@ Tasks 2 and 4 can run in parallel after Task 1.
 2. Create a Chunk model with fields: id, document_id (foreign key), content (text), embedding (pgvector vector of 1536 dimensions), chunk index
 3. Add Alembic or auto-create tables on startup
 
-**Verify:** Run the app, confirm tables `documents` and `chunks` exist in PostgreSQL with correct columns and the vector column type.
+**Verify:** `docker compose exec db psql -U postgres -c "\dt"` shows `documents` and `chunks` tables. `docker compose exec db psql -U postgres -c "\d chunks"` shows a `vector(1536)` column.
 
 ### Task 3: PDF upload and ingestion endpoint
 
@@ -82,7 +82,7 @@ Tasks 2 and 4 can run in parallel after Task 1.
 3. Perform a cosine similarity search against the chunks table using pgvector, returning the top 5 chunks
 4. Return the chunks with their content, document ID, and similarity score
 
-**Verify:** With at least one document uploaded, call the retrieval service with a relevant query and confirm it returns chunks sorted by similarity score.
+**Verify:** With a document uploaded, `curl -X POST http://localhost:8000/api/v1/chat -H "Content-Type: application/json" -d '{"message": "test query"}'` returns a response with a non-empty `sources` array, each containing `content`, `document_id`, and `score` sorted by descending score.
 
 ### Task 6: Chat endpoint
 
@@ -111,7 +111,7 @@ Tasks 2 and 4 can run in parallel after Task 1.
 2. Add error handling for: non-PDF uploads (400), oversized files (400), missing documents (404), OpenAI API failures (502)
 3. Ensure all success and error responses follow the same envelope structure
 
-**Verify:** Run the test suite. Confirm that uploading a non-PDF returns 400, deleting a missing document returns 404, and all success responses match the defined schemas.
+**Verify:** `curl -F "file=@test.txt" http://localhost:8000/api/v1/documents` returns 400. `curl -X DELETE http://localhost:8000/api/v1/documents/99999` returns 404. `pytest tests/test_schemas.py` passes.
 
 ### Task 8: Integration tests
 

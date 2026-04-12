@@ -57,8 +57,8 @@ without reading any other document. Never reference other tasks by number — th
 2. Each step is a deliverable, not an implementation instruction
 3. Keep to 3-5 steps max
 
-**Verify:** One concrete, automatable check — a test command, a CLI invocation with expected output,
-or a specific observable behaviour. Must be something a coding agent can actually run.
+**Verify:** A runnable command with expected output. `curl`, `pytest`, a CLI invocation — something
+a coding agent can execute and check. Never "confirm X" or "check that Y" — always a command.
 
 ### Task 2: [Title]
 ...

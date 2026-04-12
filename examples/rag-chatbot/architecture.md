@@ -20,25 +20,29 @@ A FastAPI application implementing RAG over user-uploaded PDFs. Documents are ch
 ### API Layer
 - **Purpose**: HTTP interface for document and chat operations
 - **Responsibilities**: Request validation, routing, response formatting
-- **Interface**: REST endpoints under `/api/v1/`
+- **Interface**: REST endpoints under `/api/v1/`:
+  - `POST /api/v1/documents` — accepts multipart file upload, returns `{id, filename, chunk_count}`
+  - `GET /api/v1/documents` — returns `[{id, filename, uploaded_at, chunk_count}]`
+  - `DELETE /api/v1/documents/{id}` — returns 200 or 404
+  - `POST /api/v1/chat` — accepts `{message: str}`, returns `{answer: str, sources: [{content, document_id}]}`
 - **Requirements satisfied**: FR-01, FR-02, FR-03, FR-04, NFR-04
 
 ### Document Ingestion Service
 - **Purpose**: Process uploaded PDFs into searchable chunks
 - **Responsibilities**: Extract text from PDF, split into fixed-size chunks with overlap, generate embeddings via OpenAI, store chunks and vectors
-- **Interface**: Called by the API layer on document upload
+- **Interface**: Takes an uploaded file, returns the created document with chunk_count. Caller can depend on: document is persisted with all chunks and embeddings before return.
 - **Requirements satisfied**: FR-01, NFR-01
 
 ### Retrieval Service
 - **Purpose**: Find relevant document chunks for a query
 - **Responsibilities**: Embed the query, perform vector similarity search against pgvector, return top-k chunks
-- **Interface**: Called by the chat endpoint with a query string, returns ranked chunks
+- **Interface**: Takes a query string, returns ranked chunks. Each chunk has: content, document_id, similarity score. Sorted by relevance descending.
 - **Requirements satisfied**: FR-02, FR-06, NFR-02
 
 ### Chat Service
 - **Purpose**: Generate answers grounded in retrieved chunks
 - **Responsibilities**: Build a prompt with retrieved chunks as context, call OpenAI chat completion, format response with source references
-- **Interface**: Accepts a query and retrieved chunks, returns an answer with sources
+- **Interface**: Takes a message and retrieved chunks, returns an answer with source references (chunk content + document_id). When given no chunks, returns a "no information" response instead of hallucinating.
 - **Requirements satisfied**: FR-02, FR-05, FR-06
 
 ## Data Flow
