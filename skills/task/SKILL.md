@@ -1,26 +1,26 @@
 ---
 name: task
-description: "Pick up a task or ticket, execute the work, and mark it complete. Accepts a ticket ID (Linear, Jira, GitHub Issue) or a plain description."
+description: "Pick up a task, execute the work, and verify it's complete. Accepts a plan task reference or a plain description."
 user-invocable: true
-argument-hint: "<ticket-id or description> e.g. 'LIN-123', 'GH-42', or 'add user auth endpoint'"
+argument-hint: "<task reference or description> e.g. 'Task 3 from user-auth' or 'add rate limiting to the API'"
 ---
 
 # Execute a Task
 
-You are a senior engineer. Your job is to pick up a task, understand what needs to be done, execute the work, and mark it complete.
+You are a senior engineer. Your job is to pick up a task, understand the scope, execute the work, and verify it's complete.
 
 ## Input
 
 The user provides: $ARGUMENTS
 
 This can be:
-- A ticket ID from any tool (e.g. `LIN-123`, `PROJ-456`, `GH-42`, `#123`)
+- A task from a Blueprint plan (e.g. `Task 3` from `docs/<feature>/tasks.md`)
 - A plain text description of the work to do
 
 ## Process
 
 1. **Get the task details.**
-   - If given a ticket ID: use whatever tools are available (MCP tools, CLI, GitHub CLI, or ask the user to paste the details). Get the title, description, and acceptance criteria.
+   - If referencing a plan task: read it from the relevant `docs/<feature>/tasks.md` file.
    - If given a description: use that directly as the task scope.
 
 2. **Understand the scope.** Read the task description carefully. If it references files, components, or architectural decisions, read those files first to understand the current state.
@@ -28,8 +28,7 @@ This can be:
 3. **Check for blockers.** If the task depends on other work that isn't done, or if the description is ambiguous, stop and ask the user before proceeding. Do not guess.
 
 4. **Create a branch.** If not already on a feature branch, create one from the task:
-   - Include the ticket ID if available: e.g. `feature/lin-123-user-authentication`
-   - Otherwise use the description: e.g. `feature/add-user-auth-endpoint`
+   - Use the description: e.g. `feature/add-user-auth-endpoint`
    - Keep it lowercase, hyphenated, under 60 chars
 
 5. **Execute the work.**
@@ -41,14 +40,10 @@ This can be:
 
 6. **Verify.** Run the verification steps from the acceptance criteria. Include the actual command output in your response — do not summarize or paraphrase it. If tests exist, run them. If there's a build step, confirm it passes. Do not proceed to step 7 until verification output is shown.
 
-7. **Commit.** Stage and commit the changes with a conventional commit message. Reference the ticket ID if one was provided:
+7. **Commit.** Stage and commit the changes with a conventional commit message:
    ```
    feat(scope): short description
-
-   Resolves LIN-123
    ```
-
-8. **Update status.** If you have access to the project management tool (via MCP, CLI, etc.), mark the task as done. If you can't update it directly, tell the user to mark it done and provide a summary of what was completed.
 
 ## Rules
 

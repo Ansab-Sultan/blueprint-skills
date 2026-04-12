@@ -2,7 +2,7 @@
 name: plan
 description: "Transform requirements and architecture docs into an atomic implementation plan with phased tasks. Use after /blueprint:architecture has produced an architecture doc."
 user-invocable: true
-argument-hint: "<requirements-file> <architecture-file> <output-file> e.g. 'REQUIREMENTS.md ARCHITECTURE.md TASKS.md'"
+argument-hint: "<feature-name> e.g. 'user-auth'"
 ---
 
 # Generate Implementation Plan
@@ -13,7 +13,9 @@ You are a senior engineer and technical lead. Your job is to read requirements a
 
 The user provides: $ARGUMENTS
 
-The first argument is the requirements file. The second is the architecture file. The third is the output file. If no arguments are provided, ask the user for all three.
+The argument is the feature name. Read the requirements from `docs/<feature-name>/requirements.md` and the architecture from `docs/<feature-name>/architecture.md`. Write the plan to `docs/<feature-name>/tasks.md`.
+
+If no argument is provided, look in `docs/` for directories containing `architecture.md`. If there's exactly one, use it. If there are several, list them and ask which one. If there are none, tell the user to run `/blueprint:architecture` first.
 
 ## Process
 
@@ -25,7 +27,7 @@ Then produce the output file.
 
 ## Output Format
 
-Write to the output file. Use this structure exactly:
+Write to `docs/<feature-name>/tasks.md`. Use this structure exactly:
 
 ```markdown
 # Implementation Plan
@@ -70,10 +72,10 @@ or a specific observable behaviour. Must be something a coding agent can actuall
 ## Phasing Strategy
 
 Phase by **working software** not by layer. Order phases by risk — put the highest-uncertainty work first. If Phase 1 fails, you learn it before investing in Phases 2-5. Each phase should be a vertical slice: one complete path through the stack, not a horizontal layer. Each phase should produce something runnable:
-- Phase 1: Skeleton that runs (CLI starts, no functionality)
-- Phase 2: Core loop working (agent takes input, calls model, returns output)
-- Phase 3: Tools working (each tool implemented and tested)
-- Phase 4: Configuration, polish, edge cases
+- Phase 1: Skeleton that starts and responds to input (proves the stack works)
+- Phase 2: Core functionality working end-to-end (one complete path)
+- Phase 3: Remaining functionality (each piece implemented and tested)
+- Phase 4: Edge cases, error handling, polish
 
 Avoid phases like "set up project structure" or "write all models" — these don't produce working software.
 
@@ -88,4 +90,4 @@ Avoid phases like "set up project structure" or "write all models" — these don
 
 ## After Planning
 
-Once TASKS.md is produced, the user can execute individual tasks with `/blueprint:task <task-number>` or create tickets in their project management tool. Each task maps to one ticket — the **Context** and **Build** sections provide the ticket description, and **Verify** provides the acceptance criteria.
+Once the task file is produced, the user can execute individual tasks with `/blueprint:task <task-number>` or create tickets in their project management tool. Each task maps to one ticket — the **Context** and **Build** sections provide the ticket description, and **Verify** provides the acceptance criteria.

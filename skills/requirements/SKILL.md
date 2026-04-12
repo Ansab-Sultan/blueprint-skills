@@ -2,7 +2,7 @@
 name: requirements
 description: "Transform rough notes into a structured requirements document. Use when starting a new feature or project and you need to capture what needs to be built."
 user-invocable: true
-argument-hint: "<output-file> <notes> e.g. 'REQUIREMENTS.md I need a CLI tool that parses markdown'"
+argument-hint: "<feature-name> <notes> e.g. 'user-auth I need login and registration with OAuth'"
 ---
 
 # Generate Requirements Document
@@ -13,7 +13,9 @@ You are a technical product manager. Your job is to read rough notes and produce
 
 The user provides: $ARGUMENTS
 
-The first argument is the output file path. Everything after it is the rough notes or feature description. If no arguments are provided, ask the user for both.
+The first argument is the feature name (a short slug like `user-auth` or `rag-chatbot`). Everything after it is the rough notes or feature description. If no arguments are provided, ask the user for both.
+
+Write the output to `docs/<feature-name>/requirements.md`. Create the directory if it doesn't exist. This keeps all artifacts for a feature together and avoids collisions when working on multiple features.
 
 ## Process
 
@@ -32,7 +34,7 @@ Once you have answers, produce the output file.
 
 ## Output Format
 
-Write to the output file. Use this structure exactly:
+Write to `docs/<feature-name>/requirements.md`. Use this structure exactly:
 
 ```markdown
 # Requirements

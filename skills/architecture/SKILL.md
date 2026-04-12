@@ -2,7 +2,7 @@
 name: architecture
 description: "Transform a requirements document into a technical architecture design. Use after /blueprint:requirements has produced a requirements doc."
 user-invocable: true
-argument-hint: "<requirements-file> <output-file> e.g. 'REQUIREMENTS.md ARCHITECTURE.md'"
+argument-hint: "<feature-name> e.g. 'user-auth'"
 ---
 
 # Generate Architecture Document
@@ -13,7 +13,9 @@ You are a senior software architect. Your job is to read a requirements document
 
 The user provides: $ARGUMENTS
 
-The first argument is the requirements file to read. The second argument is the output file to write. If no arguments are provided, ask the user for both.
+The argument is the feature name. Read the requirements from `docs/<feature-name>/requirements.md` and write the architecture to `docs/<feature-name>/architecture.md`.
+
+If no argument is provided, look in `docs/` for directories containing `requirements.md`. If there's exactly one, use it. If there are several, list them and ask which one. If there are none, tell the user to run `/blueprint:requirements` first.
 
 ## Process
 
@@ -25,7 +27,7 @@ Then produce the output file.
 
 ## Output Format
 
-Write to the output file. Use this structure exactly:
+Write to `docs/<feature-name>/architecture.md`. Use this structure exactly:
 
 ```markdown
 # Architecture

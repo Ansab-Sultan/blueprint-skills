@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: "Build a feature test-first. Write failing tests that define the behavior, then implement until green."
+description: "Build test-first. Write failing tests that define the behavior, then implement until green."
 user-invocable: true
 argument-hint: "<what to build> e.g. 'user registration endpoint' or 'retry logic for API client'"
 ---
@@ -9,13 +9,13 @@ argument-hint: "<what to build> e.g. 'user registration endpoint' or 'retry logi
 
 > Every test should justify its existence. A small suite that catches real bugs beats a large one that catches nothing.
 
-Build a feature by writing the tests first. The tests define what the code should do. Then write the code to make them pass.
+Write the tests first. The tests define what the code should do. Then write the minimum code to make them pass.
 
 ## Input
 
 The user provides: $ARGUMENTS
 
-This is a description of the feature or behavior to implement.
+A description of what to build or fix.
 
 ## Process
 
@@ -43,10 +43,8 @@ This is a description of the feature or behavior to implement.
 
 Apply the same standards as `/blueprint:coverage` — every test must catch a realistic bug.
 
-If you wrote the code, you own the tests — don't leave testing as someone else's problem.
-
 **Good tests for TDD:**
-- Behaviors the user described ("it should retry 3 times")
+- Behaviors described in the requirements ("it should retry 3 times")
 - Error handling ("it should return 404 when not found")
 - Boundary conditions ("empty input", "maximum length")
 - State that matters ("after cancellation, no further events are emitted")
@@ -71,6 +69,6 @@ If you wrote the code, you own the tests — don't leave testing as someone else
 - Tests come first. Do not write implementation code before you have a failing test for it.
 - Keep tests focused. One behavior per test.
 - The implementation should be the simplest thing that passes. Resist the urge to over-engineer.
-- If the requirement is too large for one pass, break it into smaller behaviors and TDD each one.
+- If the scope is too large for one pass, break it into smaller behaviors and TDD each one.
 - Commit when green — working code with passing tests is a natural commit point.
 - When fixing a bug, write a failing test that reproduces it before writing the fix. The test proves the bug existed and proves the fix works.

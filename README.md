@@ -20,13 +20,13 @@ The software development lifecycle, encoded as executable commands:
 graph LR
     A[Requirements] --> B[Architecture]
     B --> C[Plan]
-    C --> D[Execute]
-    D --> E[Refactor / Coverage]
-    E --> F[Review]
-    F --> G[Ship]
+    C --> D[Build]
+    D --> E[Ship]
 ```
 
-That's it. No agent swarms. No orchestration layer. No configuration files. Ten commands that map to what good engineering teams already do — just faster.
+That's it. No agent swarms. No orchestration layer. No configuration files. Commands that map to what good engineering teams already do — just faster.
+
+`/blueprint:build` runs the full inner loop: for each task, write code, write tests, review, improve, then do a final review of everything. Or use the individual commands when you want control over a specific step.
 
 You can read every skill in 10 minutes. Try that with the alternatives.
 
@@ -57,69 +57,65 @@ With this method skills install as bare names (`/requirements`) rather than name
 
 ## Commands
 
-All document commands take explicit file paths — you decide where things live.
+All planning commands use a feature name to organize artifacts into `docs/<feature>/`. One directory per feature — requirements, architecture, and tasks all live together.
 
 ### 1. Requirements
 
 Turn rough notes into a structured requirements document. The agent acts as a technical PM — it will ask clarifying questions before producing the doc.
 
 ```
-/blueprint:requirements REQUIREMENTS.md I need a CLI tool that parses markdown and generates HTML
+/blueprint:requirements user-auth I need login and registration with OAuth support
 ```
+
+Writes to `docs/user-auth/requirements.md`.
 
 ### 2. Architecture
 
 Turn a requirements doc into a technical architecture design. Covers system design, components, data flow, key decisions, and file structure.
 
 ```
-/blueprint:architecture REQUIREMENTS.md ARCHITECTURE.md
+/blueprint:architecture user-auth
 ```
+
+Reads `docs/user-auth/requirements.md`, writes `docs/user-auth/architecture.md`.
 
 ### 3. Plan
 
 Break an architecture into phased, executable tasks. Each task is self-contained — written so an agent (or engineer) with zero prior context can pick it up and start working.
 
 ```
-/blueprint:plan REQUIREMENTS.md ARCHITECTURE.md TASKS.md
+/blueprint:plan user-auth
 ```
 
-### 4. Task
+Reads both docs, writes `docs/user-auth/tasks.md`.
 
-Pick up a single task and execute it. Accepts a ticket ID from any tracker (Linear, Jira, GitHub) or a plain description. Creates a branch, does the work, verifies the acceptance criteria, and commits.
+### 4. Build
+
+Run the full implementation cycle for a planned feature. Reads the task plan, then for each task: writes code, writes tests, reviews and improves, verifies. Finishes with a full test run and final code review.
 
 ```
-/blueprint:task LIN-123
+/blueprint:build user-auth
+```
+
+This is the "go build it" command — it orchestrates the inner loop so you don't have to run each skill manually. Use the individual commands (`/blueprint:task`, `/blueprint:tdd`, `/blueprint:review`) when you want fine-grained control.
+
+### 5. Task
+
+Pick up a single task and execute it. Accepts a ticket ID or a plain description. Creates a branch, does the work, verifies the acceptance criteria, and commits.
+
+```
 /blueprint:task "add rate limiting to the API"
 ```
 
-### 5. Refactor
-
-Refactor code like a senior engineer — simplify, remove dead code, improve clarity. No behavior changes, no new abstractions. The goal is less code, not different code.
-
-```
-/blueprint:refactor
-/blueprint:refactor src/api/routes.py
-```
-
-### 6. Coverage
-
-Evaluate test coverage and fill gaps — but only with tests worth having. Every test must catch a realistic bug. No testing constructors, no mocking for the sake of mocking, no padding coverage numbers.
-
-```
-/blueprint:coverage
-/blueprint:coverage src/auth/
-```
-
-### 7. TDD
+### 6. TDD
 
 Build a feature test-first. Write failing tests that define the behavior, implement the minimum to make them pass, then simplify.
 
 ```
 /blueprint:tdd "retry logic for API client"
-/blueprint:tdd "user registration endpoint"
 ```
 
-### 8. Review
+### 7. Review
 
 Review your changes like a senior engineer before shipping. Checks correctness, security, simplicity, and robustness.
 
@@ -129,27 +125,35 @@ Review your changes like a senior engineer before shipping. Checks correctness, 
 /blueprint:review security
 ```
 
-If your project has a `REVIEW.md` in the root, those concerns are automatically included in every review. This is optional — the review works fine without one, but it's a good way to encode things your team has learned the hard way:
+If your project has a `REVIEW.md` in the root, those concerns are automatically included in every review.
 
-```markdown
-# Review Concerns
-- All database queries must use parameterized statements
-- API responses must include a request_id for tracing
-- No synchronous HTTP calls inside request handlers
-```
+### 8. Refactor
 
-Claude Code's built-in `/review` is designed for reviewing remote PRs, not local changes. The built-in `/simplify` is heavily JavaScript-oriented. `/blueprint:review` fills the gap — a language-agnostic local code review that works on your uncommitted changes, in any language, with optional project-specific concerns.
-
-### 9. Branch
-
-Create a feature branch with conventional naming.
+Simplify code without changing behavior — remove dead code, flatten unnecessary abstractions, improve naming.
 
 ```
-/blueprint:branch feature markdown-parser
-/blueprint:branch fix login-redirect
+/blueprint:refactor
+/blueprint:refactor src/api/routes.py
 ```
 
-### 10. Commit
+### 9. Coverage
+
+Fill test gaps with tests worth having. Every test must catch a realistic bug.
+
+```
+/blueprint:coverage
+/blueprint:coverage src/auth/
+```
+
+### 10. Debug
+
+Systematic debugging when something is broken. Observe, hypothesize, test, fix — and if repeated fixes fail, question the architecture.
+
+```
+/blueprint:debug "API returns 500 on user creation"
+```
+
+### 11. Commit
 
 Stage and commit with a conventional commit message. Reviews the diff and writes the message for you.
 
@@ -170,9 +174,11 @@ Stage and commit with a conventional commit message. Reviews the diff and writes
 The [`examples/`](examples/) folder shows the full pipeline for a real project — a Python RAG chatbot API. Start with the [raw notes](examples/input.md) and see what each stage produces:
 
 1. [input.md](examples/input.md) — rough project notes
-2. [REQUIREMENTS.md](examples/REQUIREMENTS.md) — structured requirements
-3. [ARCHITECTURE.md](examples/ARCHITECTURE.md) — technical design
-4. [TASKS.md](examples/TASKS.md) — phased implementation plan
+2. [requirements.md](examples/REQUIREMENTS.md) — structured requirements
+3. [architecture.md](examples/ARCHITECTURE.md) — technical design
+4. [tasks.md](examples/TASKS.md) — phased implementation plan
+
+In practice these would live in `docs/rag-chatbot/` — one directory per feature.
 
 ## Updating
 

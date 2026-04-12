@@ -38,7 +38,7 @@ Evaluate whether the code has adequate test coverage. If not, write the tests th
 A test earns its place if you can describe a realistic bug it would catch. If you can't, don't write it.
 
 **Write tests for:**
-- Your logic, your decisions, your edge cases
+- Custom logic, decisions, edge cases
 - Things that broke before or look fragile
 - Complex conditions where off-by-one or wrong-branch errors hide
 - Integration between your components
