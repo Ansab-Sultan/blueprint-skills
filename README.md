@@ -4,7 +4,7 @@
 
 ## Why Blueprint
 
-Good software follows a process: understand what to build, plan the work, build it in small pieces, test it, review it, ship it. Blueprint encodes that process as skills an AI agent can execute.
+Good software follows a process: understand what to build (requirements, technical design), plan the work, build it in small pieces, test it, review it, ship it. Blueprint encodes that process as skills an AI agent can execute.
 
 The skills are short, focused, and opinionated. They give the agent clear goals and get out of the way. As models get more capable, that approach gets better — not worse.
 
