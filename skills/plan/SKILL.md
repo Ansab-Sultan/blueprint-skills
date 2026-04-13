@@ -21,7 +21,13 @@ If no argument is provided, look in `docs/` for directories containing `architec
 
 **Start by reading both the requirements and architecture files.** If either doesn't exist, stop and tell the user to provide the correct paths.
 
-Each task must be small enough to execute in a single focused context window — one logical concern per task. If a task feels large, split it.
+Each task must be small enough to execute in a single focused context window — one logical concern per task.
+
+**Split a task if any of these are true:**
+- You can't describe the acceptance criteria in 3 bullet points or fewer
+- The title contains "and" (that's two tasks)
+- It touches two independent subsystems (e.g. auth and billing)
+- It would take more than one focused session to implement
 
 Then produce the output file.
 
@@ -63,31 +69,40 @@ a coding agent can execute and check. Never "confirm X" or "check that Y" — al
 ### Task 2: [Title]
 ...
 
+### Checkpoint
+- [ ] All tests pass
+- [ ] Application builds and runs
+- [ ] [Phase goal verified]
+
 ---
 
 ## Phase 2: [Name]
 ...
 ```
 
-## Phasing Strategy
+## Slice Vertically, Not Horizontally
 
-Phase by **working software** not by layer. Order phases by risk — put the highest-uncertainty work first. If Phase 1 fails, you learn it before investing in Phases 2-5. Each phase should be a vertical slice: one complete path through the stack, not a horizontal layer. Each phase should produce something runnable:
-- Phase 1: Skeleton that starts and responds to input (proves the stack works)
-- Phase 2: Core functionality working end-to-end (one complete path)
-- Phase 3: Remaining functionality (each piece implemented and tested)
-- Phase 4: Edge cases, error handling, polish
+Build one complete feature path at a time — not all of one layer, then all of the next.
 
-Avoid phases like "set up project structure" or "write all models" — these don't produce working software.
+**Wrong (horizontal):**
+```
+Phase 1: Build entire database schema
+Phase 2: Build all API endpoints
+Phase 3: Build all UI components
+Phase 4: Connect everything
+```
 
-## Don't rationalize away the process
+**Right (vertical):**
+```
+Phase 1: User can create an account (schema + API + UI for registration)
+Phase 2: User can log in (auth schema + API + session handling)
+Phase 3: User can create a task (task schema + API + UI)
+```
 
-| Temptation | Reality |
-|---|---|
-| "I'll figure it out as I go" | That's how you end up with rework. 10 minutes of planning saves hours of backtracking. |
-| "The tasks are obvious" | Write them down anyway. Explicit tasks surface hidden dependencies and forgotten edge cases. |
-| "This is too small to plan" | If it touches more than two files, it benefits from a task list. |
-| "I can hold it all in context" | Context windows are finite. Written plans survive session boundaries and compaction. |
+Each phase delivers working, testable functionality. Order by risk — highest-uncertainty work first. If Phase 1 fails, you learn it before investing in Phases 2-5.
 
-## After Planning
+## Rules
 
-Once the task file is produced, the user can execute individual tasks with `/blueprint:task <task-number>` or create tickets in their project management tool. Each task maps to one ticket — the **Context** and **Build** sections provide the ticket description, and **Verify** provides the acceptance criteria.
+- Every phase must end with a checkpoint. Do not proceed until it passes.
+- Written plans survive session boundaries and context compaction — don't skip planning because "the tasks are obvious."
+- Each task maps to one commit. The **Context** and **Build** sections are the scope, **Verify** is the acceptance criteria.

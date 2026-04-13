@@ -27,6 +27,11 @@ Tasks 2 and 4 can run in parallel after Task 1.
 
 **Verify:** Run `docker compose up`, then `curl http://localhost:8000/health` returns `{"status": "ok"}`.
 
+### Checkpoint
+- [ ] `docker compose up` starts without errors
+- [ ] `curl http://localhost:8000/health` returns 200
+- [ ] Database connection is live
+
 ---
 
 ## Phase 2: Document Ingestion
@@ -67,6 +72,11 @@ Tasks 2 and 4 can run in parallel after Task 1.
 
 **Verify:** Upload a document, list documents (confirm it appears), delete it (confirm 200), list again (confirm it's gone). Delete a non-existent ID (confirm 404).
 
+### Checkpoint
+- [ ] `curl -F "file=@test.pdf" http://localhost:8000/api/v1/documents` uploads and returns chunk count
+- [ ] `curl http://localhost:8000/api/v1/documents` lists the uploaded document
+- [ ] `curl -X DELETE http://localhost:8000/api/v1/documents/{id}` removes it
+
 ---
 
 ## Phase 3: Chat and Retrieval
@@ -97,6 +107,11 @@ Tasks 2 and 4 can run in parallel after Task 1.
 
 **Verify:** Upload a document, then `curl -X POST http://localhost:8000/api/v1/chat -H "Content-Type: application/json" -d '{"message": "..."}'` with a question relevant to the document. Confirm the response includes an answer and source references. Send an unrelated question and confirm the response indicates no information.
 
+### Checkpoint
+- [ ] Chat returns grounded answers with source references
+- [ ] Chat returns "no information" for unrelated queries
+- [ ] All previous phase checkpoints still pass
+
 ---
 
 ## Phase 4: Polish
@@ -123,3 +138,8 @@ Tasks 2 and 4 can run in parallel after Task 1.
 3. Write tests covering: upload a PDF and verify chunks are created, list documents, delete a document, chat with relevant chunks, chat with no relevant chunks
 
 **Verify:** Run `pytest` — all tests pass.
+
+### Checkpoint
+- [ ] `pytest` — all tests pass
+- [ ] `docker compose up` — application starts cleanly
+- [ ] All endpoints return consistent JSON with correct status codes
