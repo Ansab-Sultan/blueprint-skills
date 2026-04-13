@@ -46,15 +46,23 @@ Write to `docs/<feature-name>/spec.md`. Use this structure:
 What are we building and why? 2-4 sentences. Include who it's for and what problem it solves.
 
 ## Requirements
-- Bullet list of what the implementation must do
+
+**Functional:**
+- What the system must do — behaviors, inputs, outputs, error responses
 - Each requirement is testable (pass/fail, not subjective)
+- Include error behavior: what happens on bad input, missing resources, downstream failures?
 - Mark anything uncertain as [TBD] or [ASSUMED]
+
+**Non-functional:**
+- Performance, reliability, deployment constraints
+- Only include what's relevant — not every spec needs NFRs
 
 ## Design
 How this fits into the existing system. Cover:
 - Which components are involved (new and existing)
 - How data flows through them
 - Key technical decisions and why
+- Key API contracts or response shapes — enough that code on both sides of an interface is compatible
 
 Include a mermaid diagram if the system has more than 2 components.
 
@@ -74,5 +82,6 @@ What this does NOT include. Be specific.
 - Read the existing codebase before writing. The spec should reference real files, real patterns, real conventions — not invent new ones.
 - Keep it short. This is a brief for an agent, not a design document for humans. If a section doesn't help the agent build correctly, cut it.
 - Requirements should be specific enough to verify. "Fast" is not a requirement. "Responds within 500ms" is.
+- Don't forget error behavior. If the spec doesn't say what happens on bad input, the agent will invent it — maybe wrong.
 - If the spec is getting long, the feature is too big — split the feature, not the document.
 - The testing strategy should be specific to this feature. "Write tests" is not a strategy. "Test the auth flow end-to-end with httpx, mock the OAuth provider" is.
