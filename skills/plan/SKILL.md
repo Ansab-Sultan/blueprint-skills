@@ -47,7 +47,8 @@ Spec: `docs/<feature-name>/spec.md`
 
 ### Task 1: [Title]
 
-**Context:** Self-contained background. What is this project? What does this task touch and why?
+**Context:**
+Self-contained background. What is this project? What does this task touch and why?
 Write 2-3 sentences — enough that an agent (or engineer reading a ticket) with zero prior context
 can understand and execute without reading any other document.
 
@@ -56,7 +57,8 @@ can understand and execute without reading any other document.
 2. Each step is a deliverable, not an implementation instruction
 3. Keep to 3 bullet points max
 
-**Verify:** A runnable command with expected output. `curl`, `pytest`, a CLI invocation — something
+**Verify:**
+A runnable command with expected output. `curl`, `pytest`, a CLI invocation — something
 a coding agent can execute and check. Never "confirm X" or "check that Y" — always a command.
 
 ### Task 2: [Title]
