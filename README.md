@@ -4,11 +4,9 @@
 
 ## Why Blueprint
 
-Most agentic coding frameworks assume AI agents are unreliable and need hundreds of lines of rules. So they add guardrails on guardrails — specialized agents watching other agents, multi-stage orchestration, permission matrices — until the tooling becomes the bottleneck.
+Good software follows a process: understand what to build, plan the work, build it in small pieces, test it, review it, ship it. Blueprint encodes that process as skills an AI agent can execute.
 
-**Blueprint takes the opposite stance: agents are smart. Treat them that way.**
-
-A clear 50-line skill outperforms a 500-line skill full of warnings. As models improve, heavy frameworks fight the improvement. Simple workflows ride it.
+The skills are short, focused, and opinionated. They give the agent clear goals and get out of the way. As models get more capable, that approach gets better — not worse.
 
 9 skills. You can read the entire framework in 15 minutes.
 
@@ -31,27 +29,35 @@ A clear 50-line skill outperforms a 500-line skill full of warnings. As models i
 /blueprint:commit
 ```
 
-## Specs Are for Agents, Not Humans
+## Writing Specs for Agents
 
-Your real design thinking happens elsewhere — in Confluence, on a whiteboard, in a Slack thread, in your head. What lands in the repo as markdown is the distilled brief an agent needs to build correctly. Not a design document. Not a PRD. A spec.
+Blueprint generates markdown specs and plans that live in your repo. These are **instructions for agents**, not design documents for humans.
 
-Many frameworks split planning into separate documents — requirements, architecture, implementation plan. That separation makes sense when different people own different phases: a PM writes requirements, an architect designs, an engineer plans. Three docs because three roles.
+Your real design thinking happens elsewhere — in Confluence, on a whiteboard, in a conversation with your team. What lands in the repo is the distilled brief an agent needs to build correctly: what we're building, why, how it fits into the existing system, and what order to build it in.
 
-**An AI agent is all three roles.** It doesn't need hand-offs between phases or sign-off gates between documents. Blueprint uses a single spec (what + why + design) and a separate plan (ordered tasks). Two docs because two concerns: *what are we building* and *in what order*.
+This is why Blueprint uses a single spec rather than separate requirements, architecture, and planning documents. An agent doesn't need hand-offs between phases or sign-off gates between documents — it needs one clear brief and an ordered task list. Two docs, two concerns: *what are we building* and *in what order*.
+
+Keep specs short. If a spec is getting long, the feature is too big — split the feature, not the document.
 
 ## Install
-
-### Claude Code (plugin marketplace)
-
-```
-/install owainlewis/blueprint
-```
-
-### npx skills (Claude Code, Codex, Cursor, OpenCode, and 40+ others)
 
 ```bash
 npx skills add owainlewis/blueprint -a claude-code -g
 ```
+
+Works with Claude Code, Codex, Cursor, OpenCode, and [40+ other agents](https://github.com/vercel-labs/skills).
+
+<details>
+<summary>Claude Code plugin marketplace</summary>
+
+```
+/plugin marketplace add owainlewis/blueprint
+/plugin install blueprint@owainlewis-blueprint
+```
+
+Skills are namespaced as `/blueprint:spec`, `/blueprint:plan`, etc.
+
+</details>
 
 ## Skills
 
@@ -90,13 +96,11 @@ Use **build** for most work. Use **tdd** when you want test-first discipline —
 
 ## Philosophy
 
-**Workflow beats prompts.** The value isn't in clever prompt engineering — it's in encoding the right sequence. Spec before code. Tests alongside implementation. Review before ship. Get the sequence right and the agent does the rest.
+**Encode the process, not the rules.** The value is in the sequence — spec before code, tests alongside implementation, review before ship. Get the sequence right and the agent does the rest.
 
-**Simplicity is a feature.** One focused review catches more real bugs than 16 agents generating noise. One spec doc beats a three-document pipeline. If the spec is getting long, split the feature — not the document.
+**Specs are for agents.** Your design thinking happens in Confluence, on whiteboards, in conversations. What lands in markdown is the minimum an agent needs to build correctly.
 
-**Bet on the model.** Frameworks that micromanage agents with hundreds of rules are building on sand. Every model improvement makes those rules less necessary. Blueprint gives clear goals and gets out of the way.
-
-**Docs are for agents.** Your real design thinking happens elsewhere — Confluence, whiteboards, conversations. What lands in markdown is the minimum an agent needs to build correctly.
+**Simplicity scales.** Short, focused skills that trust the model outperform heavy frameworks full of guardrails. One focused review catches more real bugs than 16 agents generating noise.
 
 **Core SDLC only.** Blueprint encodes the development lifecycle — planning, building, testing, reviewing, shipping. Integrations with specific tools (Linear, Jira, Slack) are a separate concern and belong in separate plugins.
 
@@ -110,8 +114,8 @@ The [`examples/`](examples/) folder shows the planning output for a Python RAG c
 
 ## Updating
 
-```
-claude plugin update blueprint@owainlewis-blueprint
+```bash
+npx skills update
 ```
 
 ## Releasing (for contributors)
