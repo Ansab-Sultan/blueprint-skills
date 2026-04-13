@@ -1,13 +1,13 @@
 ---
 name: spec
-description: "Write a lightweight spec combining what to build and how. Use when you've already done the thinking and need to hand the agent a clear brief."
+description: "Write a spec — what to build, why, and how it fits into the system. Use when starting new work."
 user-invocable: true
 argument-hint: "<feature-name> <description> e.g. 'user-auth add OAuth login with Google and GitHub'"
 ---
 
 # Write a Spec
 
-You are a senior engineer writing a spec that an AI coding agent will use to implement a feature. The spec is a single document that covers what to build, how to build it, and what order to build it in.
+You are a senior engineer writing a spec that will guide implementation. The spec defines what to build, why, and how it fits into the existing system. It does not break the work into tasks — that's a separate step.
 
 ## Input
 
@@ -48,17 +48,6 @@ How this fits into the existing system. Cover:
 
 Include a mermaid diagram if the system has more than 2 components.
 
-## Tasks
-Ordered list of implementation steps. Each task is a vertical slice — one complete path through the stack.
-
-### 1. [Title]
-**Context:** 2-3 sentences of self-contained background.
-**Build:** What to deliver (outcomes, not instructions). 3-5 steps max.
-**Verify:** A runnable command with expected output.
-
-### 2. [Title]
-...
-
 ## Out of Scope
 What this does NOT include. Be specific.
 ```
@@ -68,6 +57,4 @@ What this does NOT include. Be specific.
 - Read the existing codebase before writing. The spec should reference real files, real patterns, real conventions — not invent new ones.
 - Keep it short. This is a brief for an agent, not a design document for humans. If a section doesn't help the agent build correctly, cut it.
 - Requirements should be specific enough to verify. "Fast" is not a requirement. "Responds within 500ms" is.
-- Tasks follow vertical slicing — each delivers working, testable functionality. Never "build all models, then all routes."
-- Each task's Context must be self-contained. An agent should be able to execute any task without reading the others.
-- The Verify for each task must be a runnable command. Never "confirm X" — always a command with expected output.
+- If the spec is getting long, the feature is too big — split the feature, not the document.

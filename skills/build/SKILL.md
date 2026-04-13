@@ -1,62 +1,57 @@
 ---
 name: build
-description: "Run the full implementation cycle for a planned feature. Reads the task plan, executes each task with tests and review, then does a final review."
+description: "Execute a task — write the code, write tests if relevant, verify it works. Accepts a plan task or a plain description."
 user-invocable: true
-argument-hint: "<feature-name> e.g. 'user-auth'"
+argument-hint: "<task reference or description> e.g. 'Task 2 from user-auth' or 'add rate limiting to the API'"
 ---
 
 # Build
 
-You are a senior engineer. Your job is to execute a task plan — writing code, tests, and reviewing as you go — then deliver clean, working, reviewed code.
+You are a senior engineer. Your job is to execute a task: write the code, write tests where they add value, and verify it works.
 
 ## Input
 
 The user provides: $ARGUMENTS
 
-The argument is the feature name. Read the spec from `docs/<feature-name>/spec.md`.
+This can be:
+- A task from a Blueprint plan (e.g. `Task 2` from `docs/<feature>/plan.md`)
+- A plain text description of the work to do
 
-If no argument is provided, look in `docs/` for directories containing `spec.md`. If there's exactly one, use it. If there are several, list them and ask which one. If there are none, tell the user to run `/blueprint:spec` first.
+If referencing a plan task, read it from the plan file. Also read the spec (`docs/<feature>/spec.md`) for context. If given a description, use that directly as the scope.
 
 ## Process
 
-Create a feature branch if not already on one (e.g. `feature/<feature-name>`).
+1. **Understand the scope.** Read the task and any referenced files or components. If it's ambiguous or blocked, stop and ask before proceeding.
 
-Then execute the plan, task by task, in dependency order.
+2. **Create a branch.** If not already on a feature branch, create one:
+   - e.g. `feature/add-user-auth-endpoint`
+   - Lowercase, hyphenated, under 60 chars
 
-### For each task:
+3. **Write the code.** Deliver a working vertical slice — something that runs end-to-end, even if narrow. Keep changes focused — only touch what the task requires.
 
-**1. Understand.** Read the task's Context and Build sections. If anything is ambiguous or blocked, stop and ask before proceeding.
+4. **Write tests if relevant.** Use this checklist:
 
-**2. Write the code.** Deliver a working vertical slice — something that runs end-to-end, even if narrow. Follow the Build steps as outcomes, not as literal instructions.
+   **Write tests when:**
+   - The task adds or changes behavior (new endpoint, new logic, modified output)
+   - The task fixes a bug (test proves the bug existed and the fix works)
+   - The task touches business logic with consequences if wrong
+   - The task changes an interface other code depends on
 
-**3. Write tests.** Consider the task: if the behavior is well-defined and testable, write the tests first (TDD style). If you're exploring or prototyping, write them after. Either way, every task should have tests for its core behavior. Apply the same standard as `/blueprint:coverage` — every test must catch a realistic bug.
+   **Skip tests when:**
+   - The task is config, dependency updates, or scaffolding
+   - The task is documentation or formatting
+   - The change is covered by existing tests (run them to confirm)
 
-**4. Review and improve.** Before moving to the next task, review what you just wrote:
-   - Can it be simpler while remaining correct?
-   - Is there dead code, unnecessary abstraction, or unclear naming?
-   - Would a future reader understand this without extra context?
-   Make improvements now, not later.
+   Every test you write should catch a realistic bug. Don't write tests to pad coverage.
 
-**5. Verify.** Run the tests. Show the actual output. Do not proceed to the next task until the current one passes.
+5. **Run the tests.** Run the full test suite — not just the tests you wrote, all of them. Show the actual output. If anything fails, fix it before proceeding. This catches regressions from your changes.
 
-**6. Commit.** Commit the working task with a conventional commit message referencing the task.
-
-### After all tasks:
-
-**7. Test everything.** Run the full test suite. Show the output. Fix any failures.
-
-**8. Final review.** Review the complete changeset — all code written across all tasks:
-   - Does the implementation satisfy the requirements?
-   - Are there cross-task issues that weren't visible when reviewing individual tasks? (inconsistent patterns, duplicated logic, missing integration between components)
-   - Any security, correctness, or simplicity concerns?
-
-   Fix anything you find. This is your last pass before the code ships.
+6. **Verify.** If the task has acceptance criteria or a Verify command, run it. Show the output. Do not paraphrase results or say "it should work."
 
 ## Rules
 
-- Follow the task plan's dependency order. Don't skip ahead.
-- One task at a time. Finish, test, and commit each task before starting the next.
+- One task at a time. Do not batch work across multiple tasks.
+- If the task is too large or vague to execute in one pass, tell the user it needs to be broken down.
+- Do not refactor surrounding code unless the task asks for it.
 - Show actual command output for test runs. Never paraphrase or assume results.
-- If a task is too large or vague, break it down further before implementing.
-- Do not gold-plate. Build what the plan asks for, not more.
-- If you discover the plan has a gap (missing task, wrong dependency order, architectural issue), stop and tell the user before working around it.
+- Always confirm the build and tests pass before considering the task done.

@@ -10,39 +10,34 @@ Most agentic coding frameworks assume AI agents are unreliable and need hundreds
 
 A clear 50-line skill outperforms a 500-line skill full of warnings. As models improve, heavy frameworks fight the improvement. Simple workflows ride it.
 
-12 skills. You can read the entire framework in 15 minutes.
+9 skills. You can read the entire framework in 15 minutes.
 
-## How It Works
+## The Flow
 
 ```
-    Idea ──▶ Spec ──▶ Build ──▶ Ship
+    Spec ──▶ Plan ──▶ Build ──▶ Review ──▶ Commit
 
-    Where "Build" means:
-    ┌──────┐   ┌──────┐   ┌────────┐   ┌────────┐
-    │ Code ├──▶│ Test ├──▶│ Review ├──▶│ Commit │  (for each task)
-    └──────┘   └──────┘   └────────┘   └────────┘
-
-    Then: full test suite ──▶ final review ──▶ ship
+    For each task in the plan:
+    ┌───────┐   ┌──────┐   ┌────────┐   ┌────────┐
+    │ Build ├──▶│ Test ├──▶│ Review ├──▶│ Commit │
+    └───────┘   └──────┘   └────────┘   └────────┘
 ```
-
-Write a spec. Build it. Ship it. That's the flow.
 
 ```
 /blueprint:spec user-auth add OAuth login with Google and GitHub
-/blueprint:build user-auth
+/blueprint:plan user-auth
+/blueprint:build Task 1 from user-auth
+/blueprint:review
+/blueprint:commit
 ```
 
-## Specs, Not Design Documents
+## Specs Are for Agents, Not Humans
 
-**These docs are for agents, not humans.**
+Your real design thinking happens elsewhere — in Confluence, on a whiteboard, in a Slack thread, in your head. What lands in the repo as markdown is the distilled brief an agent needs to build correctly. Not a design document. Not a PRD. A spec.
 
-Your real design thinking happens elsewhere — in Confluence, on a whiteboard, in a Slack thread, in your head. What lands in the repo as markdown is the distilled brief an agent needs to build correctly. Not a design document. Not a PRD. A spec: what to build, how it fits in, what order to build it.
+Many frameworks split planning into separate documents — requirements, architecture, implementation plan. That separation makes sense when different people own different phases: a PM writes requirements, an architect designs, an engineer plans. Three docs because three roles.
 
-Blueprint uses a single spec document that combines requirements, design, and tasks in one place. Many frameworks split these into separate documents (requirements → architecture → implementation plan). That separation makes sense when different people own different phases — a PM writes requirements, an architect designs, an engineer plans. Three docs because three roles.
-
-**An AI agent is all three roles.** It doesn't need hand-offs between phases. It doesn't need sign-off gates between documents. Splitting into three docs just means the same information gets restated three times in slightly different formats. A single spec forces the same rigorous thinking (what → how → tasks) in one pass, without the ceremony.
-
-Keep specs short. If it's getting long, the feature is too big — split the feature, not the document.
+**An AI agent is all three roles.** It doesn't need hand-offs between phases or sign-off gates between documents. Blueprint uses a single spec (what + why + design) and a separate plan (ordered tasks). Two docs because two concerns: *what are we building* and *in what order*.
 
 ## Install
 
@@ -62,32 +57,21 @@ npx skills add owainlewis/blueprint -a claude-code -g
 
 ### Planning
 
-| Skill | What it does | Example |
-|-------|-------------|---------|
-| **spec** | Write a spec — what to build, how, and in what order | `/blueprint:spec user-auth add OAuth login` |
-
-Specs are written to `docs/<feature>/spec.md` — one directory per feature, no collisions.
-
-<details>
-<summary>Standalone planning skills (requirements, architecture, plan)</summary>
-
-These skills are available for when you need them individually — generating standalone requirements, designing architecture for documentation, or producing a detailed task breakdown. They're not part of the main flow.
+Specs and plans are written to `docs/<feature>/` — one directory per feature, no collisions.
 
 | Skill | What it does | Example |
 |-------|-------------|---------|
-| **requirements** | Turn rough notes into structured, testable requirements | `/blueprint:requirements user-auth I need login with OAuth` |
-| **architecture** | Turn requirements into a technical design | `/blueprint:architecture user-auth` |
-| **plan** | Break architecture into phased, atomic tasks | `/blueprint:plan user-auth` |
-
-</details>
+| **spec** | Define what to build, why, and how it fits into the system | `/blueprint:spec user-auth add OAuth login` |
+| **plan** | Break a spec into ordered, executable tasks | `/blueprint:plan user-auth` |
 
 ### Building
 
 | Skill | What it does | Example |
 |-------|-------------|---------|
-| **build** | Execute a spec: code, test, review, and commit each task, then final review | `/blueprint:build user-auth` |
-| **task** | Pick up and execute a single task | `/blueprint:task "add rate limiting to the API"` |
+| **build** | Execute a task — write code, write tests if relevant, verify it works | `/blueprint:build Task 2 from user-auth` |
 | **tdd** | Build test-first: failing tests, then implementation, then simplify | `/blueprint:tdd "retry logic for API client"` |
+
+Use **build** for most work. Use **tdd** when you want test-first discipline — the agent must write failing tests before any implementation code.
 
 ### Quality
 
@@ -108,7 +92,7 @@ These skills are available for when you need them individually — generating st
 
 **Workflow beats prompts.** The value isn't in clever prompt engineering — it's in encoding the right sequence. Spec before code. Tests alongside implementation. Review before ship. Get the sequence right and the agent does the rest.
 
-**Simplicity is a feature.** One focused review catches more real bugs than 16 agents generating noise. One spec doc beats three separate documents. If the spec is getting long, split the feature — not the document.
+**Simplicity is a feature.** One focused review catches more real bugs than 16 agents generating noise. One spec doc beats a three-document pipeline. If the spec is getting long, split the feature — not the document.
 
 **Bet on the model.** Frameworks that micromanage agents with hundreds of rules are building on sand. Every model improvement makes those rules less necessary. Blueprint gives clear goals and gets out of the way.
 
@@ -121,13 +105,8 @@ These skills are available for when you need them individually — generating st
 The [`examples/`](examples/) folder shows the planning output for a Python RAG chatbot API:
 
 1. [input.md](examples/input.md) — rough project notes
-2. [spec.md](examples/rag-chatbot/spec.md) — the spec an agent would use to build it
-
-Regenerate the examples after changing skills:
-
-```bash
-./examples/regenerate.sh
-```
+2. [spec.md](examples/rag-chatbot/spec.md) — the spec
+3. [plan.md](examples/rag-chatbot/plan.md) — ordered tasks
 
 ## Updating
 
