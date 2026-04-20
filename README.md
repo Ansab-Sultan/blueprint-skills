@@ -8,7 +8,7 @@ Good software follows a process: understand what to build (requirements, technic
 
 The skills are short, focused, and opinionated. They give the agent clear goals and get out of the way. As models get more capable, that approach gets better — not worse.
 
-9 skills. You can read the entire framework in 15 minutes.
+10 skills. You can read the entire framework in 15 minutes.
 
 ## The Flow
 
@@ -60,6 +60,12 @@ Skills are namespaced as `/blueprint:spec`, `/blueprint:plan`, etc.
 </details>
 
 ## Skills
+
+### Scaffolding
+
+| Skill | What it does | Example |
+|-------|-------------|---------|
+| **bootstrap** | Scaffold a new project from minimal, opinionated defaults: uv for Python, bun + Next.js for TypeScript, PostgreSQL, `app/` structure. Always pins the latest stable versions. | `/blueprint:bootstrap python my-service` |
 
 ### Planning
 
