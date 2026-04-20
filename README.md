@@ -21,12 +21,22 @@ The skills are short, focused, and opinionated. They give the agent clear goals 
     └───────┘   └──────┘   └────────┘   └────────┘
 ```
 
-```
+```text
+Claude Code:
 /blueprint:spec user-auth add OAuth login with Google and GitHub
 /blueprint:plan user-auth
 /blueprint:build Task 1 from user-auth
 /blueprint:review
 /blueprint:commit
+```
+
+```text
+Codex:
+Use the `spec` skill from Blueprint to write a spec for `user-auth` adding OAuth login with Google and GitHub.
+Use the `plan` skill from Blueprint for `user-auth`.
+Use the `build` skill from Blueprint to implement Task 1 from `user-auth`.
+Review the current changes with the Blueprint `review` skill.
+Commit the current changes with the Blueprint `commit` skill.
 ```
 
 ## Writing Specs for Agents
@@ -41,11 +51,45 @@ Keep specs short. If a spec is getting long, the feature is too big — split th
 
 ## Install
 
+Blueprint works with Claude Code, Codex, Cursor, OpenCode, and [40+ other agents](https://github.com/vercel-labs/skills).
+
+### Shared Project Install
+
+If you want the skills committed to the repo and available to agents that use the shared project-level `.agents/skills/` convention, install them at project scope instead of globally:
+
+```bash
+npx skills add owainlewis/blueprint -a codex
+```
+
+For Codex, this installs into `.agents/skills/` in the current repo.
+
+This is a good default when you want one checked-in skill setup for a team using multiple agents. It works for many agents, including Codex, Cursor, OpenCode, Cline, and others, but not literally every agent.
+
+### Codex
+
+```bash
+npx skills add owainlewis/blueprint -a codex -g
+```
+
+This installs the skills into `~/.codex/skills/`.
+
+Codex does **not** expose skills as slash commands. That is expected behavior, not a bug.
+
+Use the skill by naming it in your prompt:
+
+```text
+Use the `spec` skill from Blueprint to write a spec for `user-auth` adding OAuth login.
+Use the Blueprint `plan` skill for `user-auth`.
+Use the Blueprint `review` skill on the current diff.
+```
+
+Depending on the client, you may need to restart Codex after installing new skills.
+
+### Claude Code
+
 ```bash
 npx skills add owainlewis/blueprint -a claude-code -g
 ```
-
-Works with Claude Code, Codex, Cursor, OpenCode, and [40+ other agents](https://github.com/vercel-labs/skills).
 
 <details>
 <summary>Claude Code plugin marketplace</summary>
