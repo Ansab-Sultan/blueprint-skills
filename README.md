@@ -110,7 +110,7 @@ Use **build** for most work. Use **tdd** when you want test-first discipline —
 
 | Skill | What it does | Example |
 |-------|-------------|---------|
-| **commit** | Stage and commit with a conventional commit message | `Commit the current changes` |
+| **commit** | Stage and commit with a clear conventional commit message | `Commit the current changes` |
 
 ## Philosophy
 

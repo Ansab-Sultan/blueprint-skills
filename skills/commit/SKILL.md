@@ -18,7 +18,12 @@ argument-hint: "[optional: commit message override]"
 2. Read recent commit messages so the new commit fits the repo.
 3. If there is nothing worth committing, stop.
 4. Stage only the intended files. Never stage secrets.
-5. Use the user's message if provided. Otherwise write a Conventional Commit message.
+5. Use the user's message if provided. Otherwise write a Conventional Commit message:
+   - Format: `type(scope): subject`
+   - Common types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`
+   - Keep the subject short, specific, and in imperative mood
+   - Use the body for why the change exists, important context, and migrations or follow-up work
+   - Good examples: `feat(auth): add GitHub OAuth login`, `fix(api): handle empty embedding results`
 6. Create the commit and report the hash and message.
 
 ## Verification
@@ -33,4 +38,4 @@ argument-hint: "[optional: commit message override]"
 - If there is nothing to commit or the diff is not understood, stop.
 - Prefer staging specific files over broad adds.
 - Do not commit `.env`, credentials, or keys.
-- Keep the subject line short and in imperative mood.
+- The subject should say what changed. The body should explain why.
