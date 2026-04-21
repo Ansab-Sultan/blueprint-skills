@@ -2,7 +2,7 @@
 name: spec
 description: "Write a short implementation spec before coding. Use when starting new work, when requirements are unclear, or when a change needs explicit boundaries."
 user-invocable: true
-argument-hint: "<feature-name> <description> e.g. 'user-auth add OAuth login with Google and GitHub'"
+argument-hint: "[feature-name] <description> e.g. 'user-auth add OAuth login' or just 'add OAuth login'"
 ---
 
 # Spec
@@ -15,7 +15,7 @@ argument-hint: "<feature-name> <description> e.g. 'user-auth add OAuth login wit
 
 ## Process
 
-1. Use the first argument as the feature name and everything after it as the request.
+1. Identify the `<feature-name>`. If the first word is a concise, hyphenated slug, use it. Otherwise, derive a suitable hyphenated name from the request. Use the remaining text as the description.
 2. Read the codebase first so the spec fits the project as it exists.
 3. If important details are ambiguous, ask concise clarifying questions. State assumptions explicitly instead of inventing requirements silently.
 4. Write `docs/<feature-name>/spec.md` with:
